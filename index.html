@@ -19,7 +19,7 @@
             --accent-red: #e63946; 
             --bg-body: #f8fbff;
             --bg-card: #ffffff;
-            --text-main: #0056b3; /* Light Mode Text Blue */
+            --text-main: #0056b3;
             --text-title: #1a1a1a;
             --text-sec: #476a8a; 
             --text-desc: #000000; 
@@ -27,6 +27,7 @@
             --shadow: 0 4px 20px rgba(0, 86, 179, 0.08);
             --modal-bg: #ffffff;
             --input-bg: #f8fbff;
+            --success: #2ecc71;
         }
 
         [data-theme="dark"] {
@@ -35,7 +36,7 @@
             --accent-red: #ff5c5c;
             --bg-body: #0f172a;
             --bg-card: #1e293b;
-            --text-main: #ffffff; /* Dark Mode Text White */
+            --text-main: #ffffff;
             --text-title: #ffffff;
             --text-sec: #cbd5e1;
             --text-desc: #e2e8f0; 
@@ -43,6 +44,7 @@
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             --modal-bg: #1e293b;
             --input-bg: #334155;
+            --success: #27ae60;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Hind Siliguri', sans-serif; transition: background-color 0.3s, color 0.3s; }
@@ -57,50 +59,27 @@
             display: flex; justify-content: space-between; align-items: center;
         }
         
-        /* --- LOGO STYLES --- */
         .nav-left { display: flex; align-items: center; gap: 15px; }
 
         .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
+            display: flex; align-items: center; gap: 10px; position: relative;
         }
 
         .logo-img {
-            height: 45px; 
-            width: auto; 
-            object-fit: contain; 
-            cursor: pointer;
-            display: block;
+            height: 45px; width: auto; object-fit: contain; cursor: pointer; display: block;
         }
 
         @media (max-width: 600px) {
-            .logo-img {
-                height: 35px; 
-            }
+            .logo-img { height: 35px; }
         }
 
         .logo-upload-btn {
-            font-size: 1.2rem;
-            color: var(--text-sec);
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            transition: 0.3s;
-            display: none; 
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            font-size: 1.2rem; color: var(--text-sec); cursor: pointer; padding: 5px;
+            border-radius: 50%; transition: 0.3s; display: none; 
+            background: var(--bg-card); border: 1px solid var(--border);
         }
-        .logo-upload-btn:hover {
-            color: var(--primary);
-            transform: scale(1.1);
-        }
-        .admin-mode .logo-upload-btn {
-            display: flex; 
-            align-items: center;
-            justify-content: center;
-        }
+        .logo-upload-btn:hover { color: var(--primary); transform: scale(1.1); }
+        .admin-mode .logo-upload-btn { display: flex; align-items: center; justify-content: center; }
 
         .nav-right { display: flex; align-items: center; gap: 15px; }
         
@@ -113,6 +92,11 @@
             cursor: pointer; padding: 8px 16px; border: 1px solid var(--primary); border-radius: 6px; 
         }
         .admin-trigger:hover { background: var(--primary); color: white; }
+
+        /* ANALYTICS BUTTON (New) */
+        #analyticsBtn { display: none; background: var(--success); color: white; border-color: var(--success); }
+        #analyticsBtn:hover { background: #27ae60; }
+        .admin-mode #analyticsBtn { display: block; }
 
         /* --- LOADER --- */
         .loader {
@@ -135,45 +119,26 @@
             100% {inset:0    ;transform: rotate(90deg)}
         }
         #loading {
-            display: flex; justify-content: center; align-items: center;
-            padding: 50px; width: 100%;
+            display: flex; justify-content: center; align-items: center; padding: 50px; width: 100%;
         }
 
-        /* --- Hero (UPDATED FOR TEXT REQUIREMENT) --- */
+        /* --- Hero --- */
         .hero { padding: 120px 20px 10px; text-align: center; max-width: 100%; margin: 0 auto; }
-        
         .hero h1 { 
-            /* রেসপন্সিভ ফন্ট সাইজ: ছোট স্ক্রিনে ৪.৫ ভিউপোর্ট উইডথ, বড় স্ক্রিনে ৩.৫ রেম */
-            font-size: clamp(1rem, 4.5vw, 3.5rem); 
-            line-height: 1.3; 
-            margin-bottom: 15px; 
-            color: var(--text-main); /* অটোমেটিক ব্লু বা হোয়াইট হবে */
-            font-weight: 800;
-            
-            /* এক লাইনে রাখার কোড */
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
+            font-size: clamp(1rem, 4.5vw, 3.5rem); line-height: 1.3; margin-bottom: 15px; 
+            color: var(--text-main); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
         }
-        
         .hero p { color: var(--text-sec); font-size: 1.1rem; margin-bottom: 20px; }
 
         /* --- Filters --- */
         .filter-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; padding: 0 10px; }
-        
         .filter-btn {
             padding: 12px 24px; border: 2px solid var(--primary); background: var(--bg-card);
             border-radius: 6px; cursor: pointer; font-weight: 600; color: var(--text-main);
             box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-width: 100px; text-align: center;
-            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); 
-            -webkit-tap-highlight-color: transparent; 
-            user-select: none;
+            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); user-select: none;
         }
-        .filter-btn:active {
-            transform: scale(0.95); 
-        }
-
+        .filter-btn:active { transform: scale(0.95); }
         .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
         .filter-btn:hover:not(.active) { background: var(--border); }
 
@@ -185,26 +150,18 @@
             background: var(--bg-card); border: 1px solid var(--border);
             border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);
             position: relative; display: flex; flex-direction: column;
-            cursor: pointer; transition: transform 0.2s;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
+            cursor: pointer; transition: transform 0.2s; user-select: none;
         }
 
         @media (hover: hover) {
             .card:hover { transform: translateY(-5px); }
             .card:hover .card-img-box img { transform: scale(1.05); }
-            .card:hover .details-btn-card { 
-                background: var(--primary); 
-                color: white; 
-            }
+            .card:hover .details-btn-card { background: var(--primary); color: white; }
         }
         
         .card-img-box { 
-            width: 100%; 
-            aspect-ratio: 16 / 9; 
-            height: auto; 
-            background: #eee; position: relative; overflow: hidden; 
-            pointer-events: none; 
+            width: 100%; aspect-ratio: 16 / 9; height: auto; 
+            background: #eee; position: relative; overflow: hidden; pointer-events: none; 
         }
         .card-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
         
@@ -215,95 +172,52 @@
         }
         
         .discount-badge {
-            display: inline-flex;
-            align-items: center;
-            background: #ff0000; /* Pure Red */
-            color: white;
-            padding: 2px 6px; 
-            border-radius: 3px; 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            margin-left: 8px; 
-            line-height: 1.2;
+            display: inline-flex; align-items: center; background: #ff0000; color: white;
+            padding: 2px 6px; border-radius: 3px; font-size: 0.75rem; font-weight: 700; margin-left: 8px; line-height: 1.2;
         }
 
         .timer-badge {
             position: absolute; bottom: 0; left: 0; width: 100%;
             background: rgba(230, 57, 70, 0.95); color: white;
-            text-align: center; padding: 6px; font-size: 0.8rem; font-weight: 700;
-            backdrop-filter: blur(2px); letter-spacing: 0.5px;
+            text-align: center; padding: 6px; font-size: 0.8rem; font-weight: 700; backdrop-filter: blur(2px);
         }
         
         .edit-icon {
             position: absolute; top: 10px; right: 10px;
             background: white; width: 30px; height: 30px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 50; display: none; color: #333;
-            pointer-events: auto; 
+            cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 50; display: none; color: #333; pointer-events: auto; 
         }
         .admin-mode .edit-icon { display: flex; }
 
-        .card-content { 
-            padding: 20px; flex-grow: 1; display: flex; flex-direction: column; 
-            pointer-events: none; 
-        }
-        
-        .card-title { 
-            font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; 
-            color: var(--text-title);
-            line-height: 1.4; 
-        }
-        
-        .student-count {
-            font-size: 0.85rem; color: var(--text-sec); 
-            display: flex; align-items: center; gap: 5px; margin-bottom: 15px; font-weight: 500;
-        }
-
+        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; pointer-events: none; }
+        .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: var(--text-title); line-height: 1.4; }
+        .student-count { font-size: 0.85rem; color: var(--text-sec); display: flex; align-items: center; gap: 5px; margin-bottom: 15px; font-weight: 500; }
         .card-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
         
         .price-box { display: flex; flex-direction: column; align-items: flex-start; }
         .price { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
         .old-price { font-size: 0.9rem; text-decoration: line-through; color: var(--text-sec); margin-bottom: -5px; }
-        
-        .discount-price { 
-            font-size: 1.4rem; 
-            font-weight: 800; 
-            color: #ff0000; 
-        }
+        .discount-price { font-size: 1.4rem; font-weight: 800; color: #ff0000; }
         
         .details-btn-card {
-            padding: 10px 18px; 
-            background: transparent; 
-            color: var(--primary);
-            border: 1px solid var(--primary); 
-            border-radius: 6px; font-weight: 600; cursor: pointer; z-index: 5;
-            transition: all 0.2s;
-            font-size: 0.9rem;
+            padding: 10px 18px; background: transparent; color: var(--primary);
+            border: 1px solid var(--primary); border-radius: 6px; font-weight: 600; cursor: pointer; z-index: 5;
+            transition: all 0.2s; font-size: 0.9rem;
         }
-
-        [data-theme="dark"] .details-btn-card {
-            color: #ffffff !important;
-            border-color: #ffffff;
-        }
+        [data-theme="dark"] .details-btn-card { color: #ffffff !important; border-color: #ffffff; }
 
         .enroll-btn {
             padding: 10px 20px; background: var(--primary); color: white;
             border: none; border-radius: 6px; font-weight: 600; cursor: pointer;
-            -webkit-tap-highlight-color: transparent; 
-            user-select: none;
-            transition: transform 0.1s ease; 
+            transition: transform 0.1s ease; user-select: none;
         }
-        .enroll-btn:active {
-            transform: scale(0.97);
-        }
+        .enroll-btn:active { transform: scale(0.97); }
 
         /* --- Modals --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 2000; 
-            display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px);
-            padding: 10px; 
+            background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 10px; 
         }
         .modal-overlay.active { display: flex; }
 
@@ -311,17 +225,13 @@
             background: var(--modal-bg); color: var(--text-main);
             width: 100%; max-width: 500px; padding: 25px; border-radius: 12px;
             position: relative; border: 1px solid var(--border);
-            max-height: 90vh; overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
         .close-btn {
-            position: absolute; top: 15px; right: 15px; font-size: 1.2rem; 
-            cursor: pointer; color: #333; z-index: 20;
-            background: rgba(255, 255, 255, 0.9);
-            width: 35px; height: 35px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.2s;
+            position: absolute; top: 15px; right: 15px; font-size: 1.2rem; cursor: pointer; color: #333; z-index: 20;
+            background: rgba(255, 255, 255, 0.9); width: 35px; height: 35px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.2s;
         }
         .close-btn:hover { background: var(--accent-red); color: white; transform: rotate(90deg); }
 
@@ -329,13 +239,9 @@
         .form-label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
         .form-control {
             width: 100%; padding: 12px; border: 1px solid var(--border);
-            border-radius: 6px; background: var(--input-bg); color: var(--text-main);
-            outline: none; font-size: 1rem;
+            border-radius: 6px; background: var(--input-bg); color: var(--text-main); outline: none; font-size: 1rem;
         }
         .form-control:focus { border-color: var(--primary); }
-
-        ::-webkit-calendar-picker-indicator { filter: invert(0.5); }
-        [data-theme="dark"] ::-webkit-calendar-picker-indicator { filter: invert(1); }
 
         .upload-box {
             border: 2px dashed var(--border); padding: 20px; text-align: center;
@@ -356,69 +262,75 @@
 
         /* --- FULL PAGE VIEW --- */
         #singleProductView {
-            display: none; 
-            padding-top: 100px; 
-            max-width: 900px; margin: 0 auto; padding-bottom: 50px;
-            min-height: 100vh;
+            display: none; padding-top: 100px; max-width: 900px; margin: 0 auto; padding-bottom: 50px; min-height: 100vh;
         }
         .sp-container {
-            background: var(--bg-card); border-radius: 12px; overflow: hidden;
-            box-shadow: var(--shadow); border: 1px solid var(--border);
+            background: var(--bg-card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border);
         }
         .sp-img-box {
-            width: 100%; max-height: 450px; overflow: hidden; position: relative;
-            display: flex; justify-content: center; background: #000;
+            width: 100%; max-height: 450px; overflow: hidden; position: relative; display: flex; justify-content: center; background: #000;
         }
         .sp-img-box img { width: 100%; height: 100%; object-fit: contain; }
         .sp-content { padding: 30px; }
-        
         .sp-desc { 
-            white-space: pre-wrap; 
-            line-height: 1.6; 
-            color: var(--text-desc); 
-            font-size: 1rem; 
-            margin: 20px 0; 
-            text-align: left; 
-            font-family: 'Hind Siliguri', sans-serif;
+            white-space: pre-wrap; line-height: 1.6; color: var(--text-desc); font-size: 1rem; margin: 20px 0; text-align: left; 
         }
-        
         .sp-title { font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px; }
-        
         .sp-meta {
-            display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;
-            border-bottom: 1px solid var(--border); padding-bottom: 20px;
+            display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 20px;
         }
-        .sp-tag { 
-            background: rgba(0, 86, 179, 0.1); color: var(--primary); 
-            padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; color: var(--text-sec);
+            font-weight: 600; cursor: pointer; text-decoration: none; padding: 8px 16px; border: 1px solid var(--border);
+            border-radius: 4px; background: var(--bg-card); transition: all 0.1s ease-in-out; touch-action: manipulation;
+        }
+        .back-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .back-btn:active { transform: scale(0.95); background: var(--primary); color: white; }
+
+        /* --- ANALYTICS SECTION STYLES (UPDATED) --- */
+        #analyticsSection {
+            display: none; padding-top: 100px; max-width: 1000px; margin: 0 auto; padding-bottom: 50px; min-height: 100vh;
+        }
+        
+        .analytics-container {
+            background: var(--bg-card); border-radius: 12px; padding: 25px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
         }
 
-        /* --- UPDATED BACK BUTTON (SQUARE & SUPERFAST) --- */
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            margin-bottom: 20px; color: var(--text-sec);
-            font-weight: 600; cursor: pointer; text-decoration: none;
-            padding: 8px 16px; border: 1px solid var(--border);
-            
-            /* চার কোনা বক্স ডিজাইন */
-            border-radius: 4px; 
-            
-            background: var(--bg-card);
-            
-            /* সুপারফাস্ট এনিমেশন এবং টাচ রেসপন্স */
-            transition: all 0.1s ease-in-out;
-            touch-action: manipulation;
+        .analytics-card {
+            background: rgba(0, 86, 179, 0.05); padding: 15px; border-radius: 8px;
+            text-align: center; border: 1px solid var(--border); margin-bottom: 20px;
+        }
+        .analytics-num { font-size: 2.5rem; font-weight: 800; color: var(--primary); }
+        .analytics-label { font-size: 0.9rem; color: var(--text-sec); font-weight: 600; }
+        
+        /* Table Responsive Fix */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
         }
         
-        .back-btn:hover { 
-            background: var(--primary); color: white; border-color: var(--primary); 
+        .analytics-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; white-space: nowrap; }
+        .analytics-table th, .analytics-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .analytics-table th { color: var(--text-sec); font-weight: 600; background: var(--bg-body); }
+        .analytics-table td { color: var(--text-main); }
+        .analytics-row:hover { background: rgba(0,0,0,0.02); }
+        .view-count-badge {
+            background: var(--success); color: white; padding: 2px 8px; 
+            border-radius: 10px; font-weight: 700; font-size: 0.8rem;
         }
-        
-        /* ক্লিক করলে সুপারফাস্ট ফিডব্যাক */
-        .back-btn:active {
-            transform: scale(0.95);
-            background: var(--primary);
-            color: white;
+
+        .reset-btn {
+            background: var(--accent-red); color: white; border: none;
+            padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 8px; margin-left: auto;
+        }
+        .reset-btn:hover { background: #c0392b; }
+
+        .analytics-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
         }
 
         @media (max-width: 600px) {
@@ -429,6 +341,10 @@
             .sp-content { padding: 20px; }
             .sp-img-box { max-height: 250px; }
             .sp-desc { font-size: 1rem; line-height: 1.5; }
+            
+            /* Analytics Mobile Tweaks */
+            .analytics-header { flex-direction: column; align-items: flex-start; }
+            .reset-btn { width: 100%; justify-content: center; margin-left: 0; }
         }
     </style>
 </head>
@@ -446,6 +362,7 @@
         </div>
         <div class="nav-right">
             <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
+            <div class="admin-trigger" onclick="openAnalytics()" id="analyticsBtn"><i class="fas fa-chart-line"></i> Analytics</div>
             <div class="admin-trigger" onclick="openLoginModal()" id="loginBtn">Admin</div>
             <div class="admin-trigger" onclick="logout()" id="logoutBtn" style="display:none; background:#ff4757; border-color:#ff4757; color:white;">Logout</div>
         </div>
@@ -501,6 +418,46 @@
         </div>
     </div>
     
+    <div id="analyticsSection">
+        <div style="padding: 0 20px;">
+            <div class="analytics-header">
+                <div onclick="closeAnalytics()" class="back-btn"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</div>
+                <h2 style="display:flex; align-items:center; gap:10px; color: var(--text-main);">
+                    <i class="fas fa-chart-line" style="color:var(--success);"></i> লাইভ অ্যানালিটিক্স
+                </h2>
+                <button onclick="resetAnalyticsData()" class="reset-btn">
+                    <i class="fas fa-trash-alt"></i> রিসেট অ্যানালিটিক্স
+                </button>
+            </div>
+            
+            <div class="analytics-container">
+                <p style="color:var(--text-sec); margin-bottom:20px; font-size:0.9rem;">বিগত ২৪ ঘন্টা / আজকের রিপোর্ট</p>
+
+                <div class="analytics-card">
+                    <div class="analytics-num" id="anaTotalVisitors">0</div>
+                    <div class="analytics-label">মোট ভিজিটর (আজকে)</div>
+                </div>
+
+                <h4 style="margin-bottom:15px; color:var(--text-main);">জনপ্রিয় প্রোডাক্ট (আজকে)</h4>
+                
+                <div class="table-responsive">
+                    <table class="analytics-table">
+                        <thead>
+                            <tr>
+                                <th>নাম</th>
+                                <th>ধরণ</th>
+                                <th>ভিউ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="analyticsTableBody">
+                            <tr><td colspan="3" style="text-align:center;">লোডিং...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="fab" onclick="openEditModal()">+</div>
 
     <div class="modal-overlay" id="loginModal">
@@ -596,7 +553,8 @@
             
             checkAdmin();
             loadData();
-            loadLogo(); // লোগো লোড করার নতুন ফাংশন
+            loadLogo();
+            trackSiteVisit(); // Track visitor on load
         });
 
         window.onpopstate = function(event) {
@@ -610,6 +568,157 @@
         let allProducts = [];
         let currentImgBase64 = "";
         let selectedProductForBuy = null; 
+
+        // ================= ANALYTICS SYSTEM (NEW) =================
+        
+        // 1. Track Total Site Visits (Auto Reset Daily)
+        function trackSiteVisit() {
+            if (isDummyConfig || !db) return;
+            
+            const today = new Date().toISOString().split('T')[0];
+            const statsRef = db.collection("analytics").doc("site_stats");
+
+            db.runTransaction((transaction) => {
+                return transaction.get(statsRef).then((sfDoc) => {
+                    if (!sfDoc.exists) {
+                        transaction.set(statsRef, { date: today, visitors: 1 });
+                    } else {
+                        const data = sfDoc.data();
+                        if (data.date !== today) {
+                            // Reset for new day
+                            transaction.update(statsRef, { date: today, visitors: 1 });
+                        } else {
+                            const newCount = (data.visitors || 0) + 1;
+                            transaction.update(statsRef, { visitors: newCount });
+                        }
+                    }
+                });
+            }).catch(console.error);
+        }
+
+        // 2. Track Product Click (Auto Reset Daily)
+        function trackProductView(productId) {
+            if (isDummyConfig || !db) return;
+
+            const today = new Date().toISOString().split('T')[0];
+            const productRef = db.collection("products").doc(productId);
+
+            db.runTransaction((transaction) => {
+                return transaction.get(productRef).then((doc) => {
+                    if (!doc.exists) return;
+                    
+                    const data = doc.data();
+                    let newViews = 1;
+
+                    // If date matches, increment, else reset to 1
+                    if (data.viewDate === today) {
+                        newViews = (data.dailyViews || 0) + 1;
+                    }
+                    
+                    transaction.update(productRef, { 
+                        dailyViews: newViews,
+                        viewDate: today
+                    });
+                });
+            }).catch(console.error);
+        }
+
+        // 3. Open Analytics View (Updated: Section based)
+        let analyticsUnsubscribe = null;
+
+        function openAnalytics() {
+            // Hide Home, Show Analytics Section
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('singleProductView').style.display = 'none';
+            document.getElementById('analyticsSection').style.display = 'block';
+            window.scrollTo(0, 0);
+
+            if (isDummyConfig || !db) return;
+
+            // Load Site Visitors
+            db.collection("analytics").doc("site_stats").onSnapshot(doc => {
+                const today = new Date().toISOString().split('T')[0];
+                if(doc.exists && doc.data().date === today) {
+                    document.getElementById('anaTotalVisitors').innerText = doc.data().visitors || 0;
+                } else {
+                    document.getElementById('anaTotalVisitors').innerText = 0;
+                }
+            });
+
+            // Load Top Products
+            analyticsUnsubscribe = db.collection("products").onSnapshot(snapshot => {
+                const today = new Date().toISOString().split('T')[0];
+                let products = [];
+                
+                snapshot.forEach(doc => {
+                    const d = doc.data();
+                    // Only count views from today
+                    const views = (d.viewDate === today) ? (d.dailyViews || 0) : 0;
+                    if(views > 0) {
+                        products.push({ title: d.title, type: d.type, views: views });
+                    }
+                });
+
+                // Sort Descending
+                products.sort((a, b) => b.views - a.views);
+
+                const tbody = document.getElementById('analyticsTableBody');
+                tbody.innerHTML = '';
+                
+                if(products.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-sec);">আজকে এখনো কোনো ভিউ হয়নি।</td></tr>';
+                } else {
+                    products.forEach(p => {
+                        tbody.innerHTML += `
+                            <tr class="analytics-row">
+                                <td>${p.title}</td>
+                                <td>${getTypeName(p.type)}</td>
+                                <td><span class="view-count-badge">${p.views}</span></td>
+                            </tr>
+                        `;
+                    });
+                }
+            });
+        }
+
+        function closeAnalytics() {
+            if(analyticsUnsubscribe) analyticsUnsubscribe();
+            document.getElementById('analyticsSection').style.display = 'none';
+            document.getElementById('homeSection').style.display = 'block';
+        }
+
+        // 4. Reset Analytics Data (NEW FEATURE)
+        function resetAnalyticsData() {
+            if(!confirm("আপনি কি নিশ্চিত যে আপনি অ্যানালিটিক্স রিসেট করতে চান? এটি আজকের সমস্ত ডাটা মুছে ফেলবে।")) return;
+
+            if (isDummyConfig || !db) {
+                alert("ডেমো মোডে কাজ করছে না।"); // Or handle localStorage reset
+                return;
+            }
+
+            // Reset Site Stats
+            const today = new Date().toISOString().split('T')[0];
+            const statsRef = db.collection("analytics").doc("site_stats");
+            statsRef.update({ visitors: 0 }).then(() => {
+                console.log("Site stats reset");
+            });
+
+            // Reset Product Views (Batch Update is ideal, but for simplicity looping mostly works for small scale)
+            // Note: Reading all products and updating them.
+            db.collection("products").get().then(snapshot => {
+                const batch = db.batch();
+                snapshot.docs.forEach(doc => {
+                    const docRef = db.collection("products").doc(doc.id);
+                    batch.update(docRef, { dailyViews: 0 });
+                });
+                return batch.commit();
+            }).then(() => {
+                alert("অ্যানালিটিক্স সফলভাবে রিসেট করা হয়েছে!");
+            }).catch(error => {
+                console.error("Error resetting analytics: ", error);
+                alert("সমস্যা হয়েছে, আবার চেষ্টা করুন।");
+            });
+        }
 
         // ================= DATA LOADING =================
         function loadData() {
@@ -639,6 +748,9 @@
 
             document.getElementById('loading').style.display = 'none';
 
+            // Ensure Analytics is closed on route change
+            document.getElementById('analyticsSection').style.display = 'none';
+
             if (productId) {
                 renderDetailsView(productId);
             } else {
@@ -658,6 +770,9 @@
 
         // ================= DETAILS LOGIC =================
         function openDetails(id) {
+            // Track View Logic Here
+            trackProductView(id);
+
             const newUrl = `${window.location.pathname}?id=${id}`;
             window.history.pushState({path: newUrl}, '', newUrl);
             renderDetailsView(id);
@@ -674,8 +789,6 @@
 
             document.getElementById('spImg').src = item.image || 'https://via.placeholder.com/800x400';
             document.getElementById('spTitle').innerText = item.title;
-            
-            // REMOVED: document.getElementById('spType').innerText = getTypeName(item.type);
             
             document.getElementById('spCount').innerHTML = item.studentCount ? `<i class="fas fa-user-graduate"></i> ${item.studentCount} জন এনরোল্ড` : '';
             document.getElementById('spDesc').innerText = item.desc || "বিস্তারিত বিবরণ শীঘ্রই আসছে...";
@@ -959,7 +1072,12 @@
             }
             modal.classList.add('active');
         }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function closeModal(id) { 
+            document.getElementById(id).classList.remove('active');
+            if(id === 'analyticsModal' && analyticsUnsubscribe) {
+                analyticsUnsubscribe(); // Stop listening when modal closed to save resources
+            }
+        }
 
         function toggleTheme() {
             const html = document.documentElement;
@@ -977,20 +1095,16 @@
         }
         function getTypeName(type) { return type === 'course' ? 'কোর্স' : type === 'ebook' ? 'ই-বুক' : 'হার্ডকপি'; }
 
-        // ================= LOGO MANAGEMENT SYSTEM (UPDATED FOR FIREBASE) =================
-        
-        // 1. লোগো লোড করার নতুন লজিক: Database থেকে আনবে
+        // ================= LOGO MANAGEMENT SYSTEM =================
         function loadLogo() {
             if (!isDummyConfig && db) {
                 db.collection("settings").doc("siteConfig").onSnapshot(doc => {
                     if (doc.exists && doc.data().logo) {
                         document.getElementById('siteLogo').src = doc.data().logo;
-                        // Backup to local storage for faster load next time (optional)
                         localStorage.setItem('site_logo', doc.data().logo);
                     }
                 });
             } else {
-                // Fallback for offline/dummy config
                 const savedLogo = localStorage.getItem('site_logo');
                 if (savedLogo) {
                     document.getElementById('siteLogo').src = savedLogo;
@@ -998,32 +1112,18 @@
             }
         }
 
-        // 2. লোগো আপলোড করার নতুন লজিক: Database এ সেভ করবে
         function handleLogoUpload(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const base64Logo = e.target.result;
-                    
-                    // সাথে সাথেই প্রিভিউ দেখাবে
                     document.getElementById('siteLogo').src = base64Logo;
-
-                    // Firebase এ সেভ করবে
                     if (!isDummyConfig && db) {
-                        db.collection("settings").doc("siteConfig").set({
-                            logo: base64Logo
-                        }, { merge: true })
-                        .then(() => {
-                            alert("লোগো সফলভাবে সকল ডিভাইসের জন্য আপডেট হয়েছে!");
-                        })
-                        .catch((error) => {
-                            console.error("Logo upload failed: ", error);
-                            alert("লোগো আপলোড ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
-                        });
+                        db.collection("settings").doc("siteConfig").set({ logo: base64Logo }, { merge: true })
+                        .then(() => alert("লোগো সফলভাবে আপডেট হয়েছে!")).catch(e => alert("ব্যর্থ হয়েছে।"));
                     } else {
-                        // Firebase না থাকলে লোকাল স্টোরেজ (আগের মতো)
                         localStorage.setItem('site_logo', base64Logo);
-                        alert("লোগো লোকাল স্টোরেজে সেভ হয়েছে (Firebase কানেক্টেড নয়)।");
+                        alert("লোগো লোকাল স্টোরেজে সেভ হয়েছে।");
                     }
                 }
                 reader.readAsDataURL(input.files[0]);
