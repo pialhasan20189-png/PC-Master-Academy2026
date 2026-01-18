@@ -10,53 +10,28 @@
                 return false;
             }, true);
 
-            // ২. কীবোর্ড শর্টকাট ব্লক (Ctrl+U, Ctrl+F, Ctrl+S, Ctrl+P, F12 ইত্যাদি)
+            // ২. কীবোর্ড শর্টকাট ব্লক
             document.addEventListener('keydown', function(e) {
-                // Windows এবং Mac উভয়ের জন্য 'Control' বা 'Command' key চেক করা
                 if (e.ctrlKey || e.metaKey) {
                     switch (e.key.toLowerCase()) {
-                        case 'u': // View Source
-                        case 'f': // Find/Search
-                        case 'g': // Find Next
-                        case 's': // Save Page
-                        case 'p': // Print
-                        case 'c': // Copy (Optional - টেক্সট কপি বন্ধ করতে)
-                        case 'v': // Paste
-                        case 'a': // Select All
+                        case 'u': case 'f': case 'g': case 's': case 'p': case 'c': case 'v': case 'a':
                             e.preventDefault();
                             e.stopPropagation();
                             return false;
                     }
                 }
-
-                // F12 এবং অন্যান্য ফাংশন কি
-                if (e.keyCode === 123 || // F12
-                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) // Ctrl+Shift+I/J/C
-                   ) {
+                if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67))) {
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
                 }
-            }, true); // 'true' মানে হলো এটি ক্যাপচার ফেজে কাজ করবে (সবার আগে)
+            }, true);
 
-            // ৩. ইমেজ ড্র্যাগ করা বন্ধ
-            document.addEventListener('dragstart', function(e) {
-                e.preventDefault();
-                return false;
-            });
-
-            // ৪. ডেভলপার টুলস ওপেন করলে লুপ চালিয়ে হ্যাং করে দেওয়া (DevTools Trap)
+            // ৩. ইমেজ ড্র্যাগ ও ডেভলপার টুলস ব্লক
+            document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
             setInterval(function() {
-                // কনসোল ক্লিয়ার রাখা
-                try {
-                    console.clear(); 
-                    console.log("%cSECURITY ALERT: Source code is protected.", "color:red; font-size:20px; font-weight:bold;");
-                } catch(e) {}
-
-                // ডিবাগার লুপ (এটি কোড দেখতে বাঁধা দিবে)
-                (function(){
-                    debugger; 
-                })();
+                try { console.clear(); console.log("%cSECURITY ALERT: Source code is protected.", "color:red; font-size:20px; font-weight:bold;"); } catch(e) {}
+                (function(){ debugger; })();
             }, 500);
         })();
     </script>
@@ -72,94 +47,40 @@
     <style>
         /* --- CSS Variables --- */
         :root {
-            --primary: #0056b3;
-            --primary-hover: #004494;
-            --accent-red: #e63946; 
-            --bg-body: #f8fbff;
-            --bg-card: #ffffff;
-            --text-main: #0056b3;
-            --text-title: #1a1a1a;
-            --text-sec: #476a8a; 
-            --text-desc: #000000; 
-            --border: #e0e6ed;
-            --shadow: 0 4px 20px rgba(0, 86, 179, 0.08);
-            --modal-bg: #ffffff;
-            --input-bg: #f8fbff;
-            --success: #2ecc71;
+            --primary: #0056b3; --primary-hover: #004494; --accent-red: #e63946; 
+            --bg-body: #f8fbff; --bg-card: #ffffff; --text-main: #0056b3;
+            --text-title: #1a1a1a; --text-sec: #476a8a; --text-desc: #000000; 
+            --border: #e0e6ed; --shadow: 0 4px 20px rgba(0, 86, 179, 0.08);
+            --modal-bg: #ffffff; --input-bg: #f8fbff; --success: #2ecc71;
         }
-
         [data-theme="dark"] {
-            --primary: #3a86ff;
-            --primary-hover: #60a5fa;
-            --accent-red: #ff5c5c;
-            --bg-body: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #ffffff;
-            --text-title: #ffffff;
-            --text-sec: #cbd5e1;
-            --text-desc: #e2e8f0; 
-            --border: #334155;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --modal-bg: #1e293b;
-            --input-bg: #334155;
-            --success: #27ae60;
+            --primary: #3a86ff; --primary-hover: #60a5fa; --accent-red: #ff5c5c;
+            --bg-body: #0f172a; --bg-card: #1e293b; --text-main: #ffffff;
+            --text-title: #ffffff; --text-sec: #cbd5e1; --text-desc: #e2e8f0; 
+            --border: #334155; --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --modal-bg: #1e293b; --input-bg: #334155; --success: #27ae60;
         }
 
-        /* --- CSS SECURITY: Selection Disable --- */
+        /* --- Basic Reset & Security --- */
         body { 
-            background-color: var(--bg-body); 
-            color: var(--text-main); 
-            overflow-x: hidden; 
-            min-height: 100vh;
-            /* টেক্সট সিলেক্ট বন্ধ */
-            -webkit-user-select: none; 
-            -moz-user-select: none;
-            -ms-user-select: none; 
-            user-select: none; 
+            background-color: var(--bg-body); color: var(--text-main); 
+            overflow-x: hidden; min-height: 100vh;
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; 
         }
-
-        /* ইমেজ সিলেক্ট বা ড্র্যাগ বন্ধ */
-        img {
-            pointer-events: none;
-            -webkit-user-drag: none;
-            user-select: none;
-        }
-
-        /* প্রিন্ট করলে পেজ সাদা দেখাবে */
-        @media print {
-            html, body {
-                display: none !important;
-                height: 0 !important;
-                overflow: hidden !important;
-            }
-        }
-        
+        img { pointer-events: none; -webkit-user-drag: none; user-select: none; }
+        @media print { html, body { display: none !important; height: 0 !important; overflow: hidden !important; } }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Hind Siliguri', sans-serif; transition: background-color 0.3s, color 0.3s; }
 
         /* --- Navbar --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-            padding: 15px 5%;
-            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-card); border-bottom: 1px solid var(--border);
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
         }
-        
         .nav-left { display: flex; align-items: center; gap: 15px; }
-
-        .logo-container {
-            display: flex; align-items: center; gap: 10px; position: relative;
-        }
-
-        .logo-img {
-            height: 45px; width: auto; object-fit: contain; cursor: pointer; display: block;
-            pointer-events: auto; /* Allow logo click */
-        }
-
-        @media (max-width: 600px) {
-            .logo-img { height: 35px; }
-        }
-
+        .logo-container { display: flex; align-items: center; gap: 10px; position: relative; }
+        .logo-img { height: 45px; width: auto; object-fit: contain; cursor: pointer; display: block; pointer-events: auto; }
+        @media (max-width: 600px) { .logo-img { height: 35px; } }
         .logo-upload-btn {
             font-size: 1.2rem; color: var(--text-sec); cursor: pointer; padding: 5px;
             border-radius: 50%; transition: 0.3s; display: none; 
@@ -167,66 +88,47 @@
         }
         .logo-upload-btn:hover { color: var(--primary); transform: scale(1.1); }
         .admin-mode .logo-upload-btn { display: flex; align-items: center; justify-content: center; }
-
         .nav-right { display: flex; align-items: center; gap: 15px; }
-        
-        .theme-toggle {
-            background: transparent; border: 1px solid var(--border);
-            color: var(--text-main); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 1.2rem;
-        }
+        .theme-toggle { background: transparent; border: 1px solid var(--border); color: var(--text-main); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
         .admin-trigger {
             font-size: 0.9rem; font-weight: 600; color: var(--text-main); 
             cursor: pointer; padding: 8px 16px; border: 1px solid var(--primary); border-radius: 6px; 
             display: flex; align-items: center; gap: 6px;
         }
         .admin-trigger:hover { background: var(--primary); color: white; }
-
-        /* ANALYTICS BUTTON STYLES & MOBILE FIX */
         #analyticsBtn { display: none; background: var(--success); color: white; border-color: var(--success); }
         #analyticsBtn:hover { background: #27ae60; }
         .admin-mode #analyticsBtn { display: flex; }
 
-        /* Problem 1 Fix: Mobile Analytics Button */
         @media (max-width: 600px) {
-            #analyticsBtn span { display: none; } /* Hide the text "Analytics" */
-            #analyticsBtn { padding: 8px 10px; } /* Adjust padding for icon only */
-            .nav-right { gap: 8px; } /* Reduce gap slightly on mobile */
+            #analyticsBtn span { display: none; }
+            #analyticsBtn { padding: 8px 10px; }
+            .nav-right { gap: 8px; }
             .admin-trigger { padding: 8px 10px; font-size: 0.8rem; }
         }
 
-        /* --- LOADER --- */
+        /* --- Loader --- */
         .loader {
             width: 40px; aspect-ratio: 1; color: #f03355; position: relative;
             background: radial-gradient(10px,currentColor 94%,#0000); margin: 0 auto;
         }
         .loader:before {
             content: ''; position: absolute; inset: 0; border-radius: 50%;
-            background:
-                radial-gradient(9px at bottom right,#0000 94%,currentColor) top left,
+            background: radial-gradient(9px at bottom right,#0000 94%,currentColor) top left,
                 radial-gradient(9px at bottom left ,#0000 94%,currentColor) top right,
                 radial-gradient(9px at top right,#0000 94%,currentColor) bottom left,
                 radial-gradient(9px at top left ,#0000 94%,currentColor) bottom right;
             background-size: 20px 20px; background-repeat: no-repeat;
             animation: l18 1.5s infinite cubic-bezier(0.3,1,0,1);
         }
-        @keyframes l18 {
-            33%  {inset:-10px;transform: rotate(0deg)}
-            66%  {inset:-10px;transform: rotate(90deg)}
-            100% {inset:0    ;transform: rotate(90deg)}
-        }
-        #loading {
-            display: flex; justify-content: center; align-items: center; padding: 50px; width: 100%;
-        }
+        @keyframes l18 { 33% {inset:-10px;transform: rotate(0deg)} 66% {inset:-10px;transform: rotate(90deg)} 100% {inset:0;transform: rotate(90deg)} }
+        #loading { display: flex; justify-content: center; align-items: center; padding: 50px; width: 100%; }
 
-        /* --- Hero --- */
+        /* --- Content Styles --- */
         .hero { padding: 120px 20px 10px; text-align: center; max-width: 100%; margin: 0 auto; }
-        .hero h1 { 
-            font-size: clamp(1rem, 4.5vw, 3.5rem); line-height: 1.3; margin-bottom: 15px; 
-            color: var(--text-main); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
-        }
+        .hero h1 { font-size: clamp(1rem, 4.5vw, 3.5rem); line-height: 1.3; margin-bottom: 15px; color: var(--text-main); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
         .hero p { color: var(--text-sec); font-size: 1.1rem; margin-bottom: 20px; }
 
-        /* --- Filters --- */
         .filter-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; padding: 0 10px; }
         .filter-btn {
             padding: 12px 24px; border: 2px solid var(--primary); background: var(--bg-card);
@@ -238,7 +140,6 @@
         .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
         .filter-btn:hover:not(.active) { background: var(--border); }
 
-        /* --- Grid & Cards --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 80px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
 
@@ -248,39 +149,20 @@
             position: relative; display: flex; flex-direction: column;
             cursor: pointer; transition: transform 0.2s; user-select: none;
         }
-
         @media (hover: hover) {
             .card:hover { transform: translateY(-5px); }
             .card:hover .card-img-box img { transform: scale(1.05); }
             .card:hover .details-btn-card { background: var(--primary); color: white; }
         }
-        
-        .card-img-box { 
-            width: 100%; aspect-ratio: 16 / 9; height: auto; 
-            background: #eee; position: relative; overflow: hidden; pointer-events: none; 
-        }
+        .card-img-box { width: 100%; aspect-ratio: 16 / 9; height: auto; background: #eee; position: relative; overflow: hidden; pointer-events: none; }
         .card-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
         
-        .badge {
-            position: absolute; top: 10px; left: 10px;
-            background: var(--primary); color: white;
-            padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; z-index: 2;
-        }
-        
-        .discount-badge {
-            display: inline-flex; align-items: center; background: #ff0000; color: white;
-            padding: 2px 6px; border-radius: 3px; font-size: 0.75rem; font-weight: 700; margin-left: 8px; line-height: 1.2;
-        }
-
-        .timer-badge {
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            background: rgba(230, 57, 70, 0.95); color: white;
-            text-align: center; padding: 6px; font-size: 0.8rem; font-weight: 700; backdrop-filter: blur(2px);
-        }
+        .badge { position: absolute; top: 10px; left: 10px; background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; z-index: 2; }
+        .discount-badge { display: inline-flex; align-items: center; background: #ff0000; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.75rem; font-weight: 700; margin-left: 8px; line-height: 1.2; }
+        .timer-badge { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(230, 57, 70, 0.95); color: white; text-align: center; padding: 6px; font-size: 0.8rem; font-weight: 700; backdrop-filter: blur(2px); }
         
         .edit-icon {
-            position: absolute; top: 10px; right: 10px;
-            background: white; width: 30px; height: 30px;
+            position: absolute; top: 10px; right: 10px; background: white; width: 30px; height: 30px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 50; display: none; color: #333; pointer-events: auto; 
         }
@@ -296,158 +178,58 @@
         .old-price { font-size: 0.9rem; text-decoration: line-through; color: var(--text-sec); margin-bottom: -5px; }
         .discount-price { font-size: 1.4rem; font-weight: 800; color: #ff0000; }
         
-        .details-btn-card {
-            padding: 10px 18px; background: transparent; color: var(--primary);
-            border: 1px solid var(--primary); border-radius: 6px; font-weight: 600; cursor: pointer; z-index: 5;
-            transition: all 0.2s; font-size: 0.9rem;
-        }
+        .details-btn-card { padding: 10px 18px; background: transparent; color: var(--primary); border: 1px solid var(--primary); border-radius: 6px; font-weight: 600; cursor: pointer; z-index: 5; transition: all 0.2s; font-size: 0.9rem; }
         [data-theme="dark"] .details-btn-card { color: #ffffff !important; border-color: #ffffff; }
-
-        .enroll-btn {
-            padding: 10px 20px; background: var(--primary); color: white;
-            border: none; border-radius: 6px; font-weight: 600; cursor: pointer;
-            transition: transform 0.1s ease; user-select: none;
-        }
+        .enroll-btn { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: transform 0.1s ease; user-select: none; }
         .enroll-btn:active { transform: scale(0.97); }
 
-        /* --- Modals --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 10px; 
-        }
+        /* --- Modals & Views --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 10px; }
         .modal-overlay.active { display: flex; }
-
-        .modal {
-            background: var(--modal-bg); color: var(--text-main);
-            width: 100%; max-width: 500px; padding: 25px; border-radius: 12px;
-            position: relative; border: 1px solid var(--border);
-            max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        .close-btn {
-            position: absolute; top: 15px; right: 15px; font-size: 1.2rem; cursor: pointer; color: #333; z-index: 20;
-            background: rgba(255, 255, 255, 0.9); width: 35px; height: 35px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.2s;
-        }
+        .modal { background: var(--modal-bg); color: var(--text-main); width: 100%; max-width: 500px; padding: 25px; border-radius: 12px; position: relative; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .close-btn { position: absolute; top: 15px; right: 15px; font-size: 1.2rem; cursor: pointer; color: #333; z-index: 20; background: rgba(255, 255, 255, 0.9); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.2s; }
         .close-btn:hover { background: var(--accent-red); color: white; transform: rotate(90deg); }
-
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
-        .form-control {
-            width: 100%; padding: 12px; border: 1px solid var(--border);
-            border-radius: 6px; background: var(--input-bg); color: var(--text-main); outline: none; font-size: 1rem;
-        }
+        .form-control { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--input-bg); color: var(--text-main); outline: none; font-size: 1rem; }
         .form-control:focus { border-color: var(--primary); }
-
-        .upload-box {
-            border: 2px dashed var(--border); padding: 20px; text-align: center;
-            border-radius: 8px; cursor: pointer; margin-bottom: 15px;
-        }
+        .upload-box { border: 2px dashed var(--border); padding: 20px; text-align: center; border-radius: 8px; cursor: pointer; margin-bottom: 15px; }
         .preview-img { width: 100px; height: 100px; object-fit: cover; display: none; margin: 10px auto; border-radius: 6px; }
 
-        /* FAB */
-        .fab {
-            position: fixed; bottom: 30px; right: 30px;
-            width: 55px; height: 55px; background: var(--primary);
-            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); cursor: pointer;
-            z-index: 100; display: none; transition: transform 0.2s;
-        }
+        .fab { position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); cursor: pointer; z-index: 100; display: none; transition: transform 0.2s; }
         .fab:hover { transform: scale(1.1); }
         .admin-mode .fab { display: flex; }
 
-        /* --- FULL PAGE VIEW --- */
-        #singleProductView {
-            display: none; padding-top: 100px; max-width: 900px; margin: 0 auto; padding-bottom: 50px; min-height: 100vh;
-        }
-        .sp-container {
-            background: var(--bg-card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border);
-        }
-        .sp-img-box {
-            width: 100%; max-height: 450px; overflow: hidden; position: relative; display: flex; justify-content: center; background: #000;
-        }
+        #singleProductView { display: none; padding-top: 100px; max-width: 900px; margin: 0 auto; padding-bottom: 50px; min-height: 100vh; }
+        .sp-container { background: var(--bg-card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border); }
+        .sp-img-box { width: 100%; max-height: 450px; overflow: hidden; position: relative; display: flex; justify-content: center; background: #000; }
         .sp-img-box img { width: 100%; height: 100%; object-fit: contain; }
         .sp-content { padding: 30px; }
-        .sp-desc { 
-            white-space: pre-wrap; line-height: 1.6; color: var(--text-desc); font-size: 1rem; margin: 20px 0; text-align: left; 
-        }
+        .sp-desc { white-space: pre-wrap; line-height: 1.6; color: var(--text-desc); font-size: 1rem; margin: 20px 0; text-align: left; }
         .sp-title { font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px; }
-        .sp-meta {
-            display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 20px;
-        }
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; color: var(--text-sec);
-            font-weight: 600; cursor: pointer; text-decoration: none; padding: 8px 16px; border: 1px solid var(--border);
-            border-radius: 4px; background: var(--bg-card); transition: all 0.1s ease-in-out; touch-action: manipulation;
-        }
+        .sp-meta { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; color: var(--text-sec); font-weight: 600; cursor: pointer; text-decoration: none; padding: 8px 16px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-card); transition: all 0.1s ease-in-out; touch-action: manipulation; }
         .back-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
-        .back-btn:active { transform: scale(0.95); background: var(--primary); color: white; }
 
-        /* --- ANALYTICS SECTION STYLES (UPDATED) --- */
-        #analyticsSection {
-            display: none; padding-top: 100px; max-width: 1000px; margin: 0 auto; padding-bottom: 50px; min-height: 100vh;
-        }
-        
-        .analytics-container {
-            background: var(--bg-card); border-radius: 12px; padding: 25px;
-            box-shadow: var(--shadow); border: 1px solid var(--border);
-        }
-
-        .analytics-card {
-            background: rgba(0, 86, 179, 0.05); padding: 15px; border-radius: 8px;
-            text-align: center; border: 1px solid var(--border); margin-bottom: 20px;
-        }
+        #analyticsSection { display: none; padding-top: 100px; max-width: 1000px; margin: 0 auto; padding-bottom: 50px; min-height: 100vh; }
+        .analytics-container { background: var(--bg-card); border-radius: 12px; padding: 25px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+        .analytics-card { background: rgba(0, 86, 179, 0.05); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid var(--border); margin-bottom: 20px; }
         .analytics-num { font-size: 2.5rem; font-weight: 800; color: var(--primary); }
         .analytics-label { font-size: 0.9rem; color: var(--text-sec); font-weight: 600; }
-        
-        /* Table Responsive Fix */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
-        
+        .table-responsive { width: 100%; overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
         .analytics-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; white-space: nowrap; }
         .analytics-table th, .analytics-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
         .analytics-table th { color: var(--text-sec); font-weight: 600; background: var(--bg-body); }
         .analytics-table td { color: var(--text-main); }
-        .analytics-row:hover { background: rgba(0,0,0,0.02); }
-        .view-count-badge {
-            background: var(--success); color: white; padding: 2px 8px; 
-            border-radius: 10px; font-weight: 700; font-size: 0.8rem;
-        }
-
-        .reset-btn {
-            background: var(--accent-red); color: white; border: none;
-            padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;
-            display: inline-flex; align-items: center; gap: 8px; margin-left: auto;
-        }
-        .reset-btn:hover { background: #c0392b; }
-
-        /* Problem 3 Fix: Better Alignment */
-        .analytics-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;
-        }
-        
-        .analytics-title-group {
-            display: flex; align-items: center; gap: 10px;
-        }
+        .view-count-badge { background: var(--success); color: white; padding: 2px 8px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; }
+        .reset-btn { background: var(--accent-red); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; margin-left: auto; }
+        .analytics-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+        .analytics-title-group { display: flex; align-items: center; gap: 10px; }
 
         @media (max-width: 600px) {
-            .filter-container { gap: 8px; }
-            .filter-btn { flex: 1 1 45%; } 
-            .modal { padding: 20px; width: 100%; }
-            .sp-title { font-size: 1.5rem; }
-            .sp-content { padding: 20px; }
-            .sp-img-box { max-height: 250px; }
-            .sp-desc { font-size: 1rem; line-height: 1.5; }
-            
-            /* Analytics Mobile Tweaks */
-            .analytics-header { flex-direction: column; align-items: stretch; }
-            .reset-btn { width: 100%; justify-content: center; margin-left: 0; }
-            .analytics-title-group { justify-content: center; }
-            .back-btn { justify-content: center; }
+            .filter-container { gap: 8px; } .filter-btn { flex: 1 1 45%; } .modal { padding: 20px; width: 100%; }
+            .sp-title { font-size: 1.5rem; } .sp-content { padding: 20px; } .sp-img-box { max-height: 250px; } .sp-desc { font-size: 1rem; line-height: 1.5; }
+            .analytics-header { flex-direction: column; align-items: stretch; } .reset-btn { width: 100%; justify-content: center; margin-left: 0; } .analytics-title-group { justify-content: center; } .back-btn { justify-content: center; }
         }
     </style>
 </head>
@@ -485,11 +267,7 @@
                 <button class="filter-btn" onclick="filterData('ebook')">ই-বুক</button>
                 <button class="filter-btn" onclick="filterData('hardcopy')">হার্ডকপি বই</button>
             </div>
-
-            <div id="loading">
-                <div class="loader"></div>
-            </div>
-            
+            <div id="loading"><div class="loader"></div></div>
             <div class="grid" id="productGrid"></div>
         </div>
     </div>
@@ -497,26 +275,15 @@
     <div id="singleProductView">
         <div style="padding: 0 20px;">
             <div onclick="closeDetailsView()" class="back-btn"><i class="fas fa-arrow-left"></i> সকল রিসোর্সে ফিরে যান</div>
-            
             <div class="sp-container">
-                <div class="sp-img-box">
-                    <img id="spImg" src="" alt="Detail Image">
-                </div>
+                <div class="sp-img-box"><img id="spImg" src="" alt="Detail Image"></div>
                 <div class="sp-content">
                     <h1 id="spTitle" class="sp-title"></h1>
-                    <div class="sp-meta">
-                        <span id="spCount" style="display:flex; align-items:center; gap:5px; color:var(--text-sec); font-weight:500;"></span>
-                    </div>
-
+                    <div class="sp-meta"><span id="spCount" style="display:flex; align-items:center; gap:5px; color:var(--text-sec); font-weight:500;"></span></div>
                     <div id="spPriceBox" style="margin-bottom: 25px;"></div>
-                    
                     <h3 style="color:var(--text-main); margin-bottom:10px;">বিস্তারিত বিবরণ:</h3>
-                    
                     <div id="spDesc" class="sp-desc"></div>
-
-                    <button onclick="confirmBuySingle()" class="enroll-btn" style="width:100%; padding:15px; font-size:1.1rem; display:flex; justify-content:center; align-items:center; gap:10px;">
-                        এখনই কিনুন <i class="fas fa-shopping-cart"></i>
-                    </button>
+                    <button onclick="confirmBuySingle()" class="enroll-btn" style="width:100%; padding:15px; font-size:1.1rem; display:flex; justify-content:center; align-items:center; gap:10px;">এখনই কিনুন <i class="fas fa-shopping-cart"></i></button>
                 </div>
             </div>
         </div>
@@ -526,40 +293,24 @@
         <div style="padding: 0 20px;">
             <div class="analytics-header">
                 <div onclick="closeAnalytics()" class="back-btn" style="margin-bottom: 0;"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</div>
-                
                 <div class="analytics-title-group">
                     <h2 style="display:flex; align-items:center; gap:10px; color: var(--text-main); margin: 0;">
                         <i class="fas fa-chart-line" style="color:var(--success);"></i> লাইভ অ্যানালিটিক্স
                     </h2>
                 </div>
-                
-                <button onclick="resetAnalyticsData()" class="reset-btn">
-                    <i class="fas fa-trash-alt"></i> রিসেট অ্যানালিটিক্স
-                </button>
+                <button onclick="resetAnalyticsData()" class="reset-btn"><i class="fas fa-trash-alt"></i> রিসেট অ্যানালিটিক্স</button>
             </div>
-            
             <div class="analytics-container">
                 <p style="color:var(--text-sec); margin-bottom:20px; font-size:0.9rem;">বিগত ২৪ ঘন্টা / আজকের রিপোর্ট</p>
-
                 <div class="analytics-card">
                     <div class="analytics-num" id="anaTotalVisitors">0</div>
                     <div class="analytics-label">মোট ভিজিটর (আজকে)</div>
                 </div>
-
                 <h4 style="margin-bottom:15px; color:var(--text-main);">জনপ্রিয় প্রোডাক্ট (আজকে)</h4>
-                
                 <div class="table-responsive">
                     <table class="analytics-table">
-                        <thead>
-                            <tr>
-                                <th>নাম</th>
-                                <th>ধরণ</th>
-                                <th>ভিউ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="analyticsTableBody">
-                            <tr><td colspan="3" style="text-align:center;">লোডিং...</td></tr>
-                        </tbody>
+                        <thead><tr><th>নাম</th><th>ধরণ</th><th>ভিউ</th></tr></thead>
+                        <tbody id="analyticsTableBody"><tr><td colspan="3" style="text-align:center;">লোডিং...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -572,7 +323,7 @@
         <div class="modal">
             <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
             <h2 style="margin-bottom:20px; text-align:center;">অ্যাডমিন লগইন</h2>
-            <div class="form-group"><label class="form-label">ইমেইল</label><input type="email" id="adminEmail" class="form-control" placeholder=""></div>
+            <div class="form-group"><label class="form-label">ইমেইল</label><input type="email" id="adminEmail" class="form-control"></div>
             <div class="form-group"><label class="form-label">পাসওয়ার্ড</label><input type="password" id="adminPass" class="form-control"></div>
             <button onclick="handleLogin()" class="enroll-btn" style="width:100%;">লগইন</button>
         </div>
@@ -583,15 +334,12 @@
             <span class="close-btn" onclick="closeModal('editModal')">&times;</span>
             <h2 id="modalTitle" style="margin-bottom:20px;">নতুন আইটেম যোগ করুন</h2>
             <input type="hidden" id="editId">
-            
             <div class="upload-box" onclick="document.getElementById('fileInput').click()">
                 <i class="fas fa-cloud-upload-alt"></i> ছবি আপলোড করুন
                 <input type="file" id="fileInput" hidden accept="image/*" onchange="handleImage(this)">
             </div>
             <img id="previewImg" class="preview-img">
-
             <div class="form-group"><label class="form-label">শিরোনাম</label><input type="text" id="inpTitle" class="form-control"></div>
-
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
                 <div class="form-group" style="flex:1; min-width: 140px;">
                     <label class="form-label">ধরণ</label>
@@ -606,7 +354,6 @@
                     <input type="text" id="inpPrice" class="form-control" placeholder="৳">
                 </div>
             </div>
-
             <div style="background: rgba(0, 86, 179, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px dashed var(--primary);">
                 <h4 style="margin-bottom:10px; color:var(--primary);">স্পেশাল অফার</h4>
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
@@ -624,14 +371,8 @@
                     <label for="inpTimerActive" style="font-weight: 600; cursor: pointer;">টাইমার চালু রাখুন</label>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label class="form-label">ভর্তি/বিক্রির সংখ্যা</label>
-                <input type="number" id="inpCount" class="form-control" placeholder="যেমন: 520">
-            </div>
-
+            <div class="form-group"><label class="form-label">ভর্তি/বিক্রির সংখ্যা</label><input type="number" id="inpCount" class="form-control" placeholder="যেমন: 520"></div>
             <div class="form-group"><label class="form-label">বিস্তারিত</label><textarea id="inpDesc" class="form-control" rows="5"></textarea></div>
-
             <button onclick="saveData()" id="saveBtn" class="enroll-btn" style="width:100%;">সেভ করুন</button>
             <button onclick="deleteData()" id="deleteBtn" style="width:100%; margin-top:10px; background:#ff4757; color:white; border:none; padding:10px; border-radius:6px; display:none; cursor:pointer;">ডিলিট করুন</button>
         </div>
@@ -648,14 +389,14 @@
              appId: "1:162901994412:web:a89c09a2b95ddea8c22809"
         };
 
-        const isDummyConfig = firebaseConfig.apiKey === "YOUR_API_KEY";
+        const isDummyConfig = false;
         let db = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             try {
                 if (typeof firebase !== 'undefined' && firebase.apps && !firebase.apps.length) {
                     firebase.initializeApp(firebaseConfig);
-                    if (!isDummyConfig) db = firebase.firestore();
+                    db = firebase.firestore();
                 }
             } catch (e) { console.error("Firebase init error:", e); }
             
@@ -665,427 +406,77 @@
             trackSiteVisit(); 
         });
 
-        window.onpopstate = function(event) {
-            processRouting(); 
-        };
+        window.onpopstate = function(event) { processRouting(); };
 
-        // Variables
         const ADMIN_EMAIL = "teacher20189@gmail.com";
         const ADMIN_PASS = "teacher20189@";
         const WHATSAPP_NUM = "8801792595165"; 
         let allProducts = [];
         let currentImgBase64 = "";
         let selectedProductForBuy = null; 
-        
-        // Problem 4: Scroll Position Variable
         let lastScrollPosition = 0;
 
-        // ================= ANALYTICS SYSTEM =================
-        
-        // Problem 2 Fix: Track Total Site Visits (Session Based)
-        function trackSiteVisit() {
-            if (isDummyConfig || !db) return;
-            
-            // Check if user already visited in this session
-            if (sessionStorage.getItem('visited_this_session')) {
-                return; // Do nothing if already counted this session
-            }
-            
-            const today = new Date().toISOString().split('T')[0];
-            const statsRef = db.collection("analytics").doc("site_stats");
-
-            db.runTransaction((transaction) => {
-                return transaction.get(statsRef).then((sfDoc) => {
-                    if (!sfDoc.exists) {
-                        transaction.set(statsRef, { date: today, visitors: 1 });
-                    } else {
-                        const data = sfDoc.data();
-                        if (data.date !== today) {
-                            transaction.update(statsRef, { date: today, visitors: 1 });
-                        } else {
-                            const newCount = (data.visitors || 0) + 1;
-                            transaction.update(statsRef, { visitors: newCount });
-                        }
-                    }
-                });
-            }).then(() => {
-                // Set flag so we don't count again until browser/tab closes
-                sessionStorage.setItem('visited_this_session', 'true');
-            }).catch(console.error);
-        }
-
-        function trackProductView(productId) {
-            if (isDummyConfig || !db) return;
-
-            const today = new Date().toISOString().split('T')[0];
-            const productRef = db.collection("products").doc(productId);
-
-            db.runTransaction((transaction) => {
-                return transaction.get(productRef).then((doc) => {
-                    if (!doc.exists) return;
-                    
-                    const data = doc.data();
-                    let newViews = 1;
-
-                    if (data.viewDate === today) {
-                        newViews = (data.dailyViews || 0) + 1;
-                    }
-                    
-                    transaction.update(productRef, { 
-                        dailyViews: newViews,
-                        viewDate: today
-                    });
-                });
-            }).catch(console.error);
-        }
-
-        let analyticsUnsubscribe = null;
-
-        function openAnalytics() {
-            document.getElementById('homeSection').style.display = 'none';
-            document.getElementById('singleProductView').style.display = 'none';
-            document.getElementById('analyticsSection').style.display = 'block';
-            window.scrollTo(0, 0);
-
-            if (isDummyConfig || !db) return;
-
-            db.collection("analytics").doc("site_stats").onSnapshot(doc => {
-                const today = new Date().toISOString().split('T')[0];
-                if(doc.exists && doc.data().date === today) {
-                    document.getElementById('anaTotalVisitors').innerText = doc.data().visitors || 0;
-                } else {
-                    document.getElementById('anaTotalVisitors').innerText = 0;
-                }
-            });
-
-            analyticsUnsubscribe = db.collection("products").onSnapshot(snapshot => {
-                const today = new Date().toISOString().split('T')[0];
-                let products = [];
-                
-                snapshot.forEach(doc => {
-                    const d = doc.data();
-                    const views = (d.viewDate === today) ? (d.dailyViews || 0) : 0;
-                    if(views > 0) {
-                        products.push({ title: d.title, type: d.type, views: views });
-                    }
-                });
-
-                products.sort((a, b) => b.views - a.views);
-
-                const tbody = document.getElementById('analyticsTableBody');
-                tbody.innerHTML = '';
-                
-                if(products.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-sec);">আজকে এখনো কোনো ভিউ হয়নি।</td></tr>';
-                } else {
-                    products.forEach(p => {
-                        tbody.innerHTML += `
-                            <tr class="analytics-row">
-                                <td>${p.title}</td>
-                                <td>${getTypeName(p.type)}</td>
-                                <td><span class="view-count-badge">${p.views}</span></td>
-                            </tr>
-                        `;
-                    });
-                }
-            });
-        }
-
-        function closeAnalytics() {
-            if(analyticsUnsubscribe) analyticsUnsubscribe();
-            document.getElementById('analyticsSection').style.display = 'none';
-            document.getElementById('homeSection').style.display = 'block';
-        }
-
-        function resetAnalyticsData() {
-            if(!confirm("আপনি কি নিশ্চিত যে আপনি অ্যানালিটিক্স রিসেট করতে চান? এটি আজকের সমস্ত ডাটা মুছে ফেলবে।")) return;
-
-            if (isDummyConfig || !db) {
-                alert("ডেমো মোডে কাজ করছে না।");
-                return;
-            }
-
-            const today = new Date().toISOString().split('T')[0];
-            const statsRef = db.collection("analytics").doc("site_stats");
-            statsRef.update({ visitors: 0 }).then(() => {
-                console.log("Site stats reset");
-            });
-
-            db.collection("products").get().then(snapshot => {
-                const batch = db.batch();
-                snapshot.docs.forEach(doc => {
-                    const docRef = db.collection("products").doc(doc.id);
-                    batch.update(docRef, { dailyViews: 0 });
-                });
-                return batch.commit();
-            }).then(() => {
-                alert("অ্যানালিটিক্স সফলভাবে রিসেট করা হয়েছে!");
-            }).catch(error => {
-                console.error("Error resetting analytics: ", error);
-                alert("সমস্যা হয়েছে, আবার চেষ্টা করুন।");
-            });
-        }
-
-        // ================= DATA LOADING =================
+        // ================= CORE FUNCTIONS =================
         function loadData() {
             document.getElementById('loading').style.display = 'flex';
-            
-            if (!isDummyConfig && typeof firebase !== 'undefined' && db) {
+            if (db) {
                 db.collection("products").orderBy("timestamp", "desc").onSnapshot(snap => {
                     allProducts = [];
                     snap.forEach(doc => allProducts.push({ id: doc.id, ...doc.data() }));
                     processRouting(); 
-                }, err => loadFromLocalStorage());
+                });
             } else {
-                loadFromLocalStorage();
+                alert("Database Connection Failed! Check Config.");
             }
         }
 
-        function loadFromLocalStorage() {
-            const localData = localStorage.getItem('eduprime_products');
-            allProducts = localData ? JSON.parse(localData) : [];
-            processRouting();
-        }
+        // ================= IMPORTANT: IMAGE COMPRESSION FOR DATABASE STORAGE =================
+        // This function forces the image to be small enough for Firestore (Server)
+        function handleImage(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
 
-        // ================= SPA NAVIGATION LOGIC =================
-        function processRouting() {
-            // FIX: যদি অ্যানালিটিক্স সেকশন ওপেন থাকে, তাহলে পেজ রিফ্রেশ বা অন্য পেজে যাওয়ার দরকার নেই
-            // কারণ রিয়েল টাইম ডাটা আপডেটের জন্য loadData() কল হলে এটি ট্রিগার হয়।
-            if(document.getElementById('analyticsSection').style.display === 'block') {
-                 document.getElementById('loading').style.display = 'none';
-                 return;
-            }
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('id');
+                        // AGGRESSIVE COMPRESSION SETTINGS
+                        // Max width 600px ensures it fits in 1MB Firestore limit
+                        const MAX_WIDTH = 600;
+                        let width = img.width;
+                        let height = img.height;
 
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('analyticsSection').style.display = 'none';
-
-            if (productId) {
-                renderDetailsView(productId);
-            } else {
-                document.getElementById('singleProductView').style.display = 'none';
-                document.getElementById('homeSection').style.display = 'block';
-                
-                const activeBtn = document.querySelector('.filter-btn.active');
-                let type = 'all';
-                if(activeBtn && activeBtn.innerText.includes('কোর্স')) type = 'course';
-                else if(activeBtn && activeBtn.innerText.includes('ই-বুক')) type = 'ebook';
-                else if(activeBtn && activeBtn.innerText.includes('হার্ডকপি')) type = 'hardcopy';
-                
-                renderGrid(type);
-                // Note: Only scroll to top if we are not returning from a product (handled in closeDetailsView)
-            }
-        }
-
-        // ================= DETAILS LOGIC =================
-        function openDetails(id) {
-            // Problem 4: Save Scroll Position
-            lastScrollPosition = window.scrollY;
-
-            trackProductView(id);
-
-            const newUrl = `${window.location.pathname}?id=${id}`;
-            window.history.pushState({path: newUrl}, '', newUrl);
-            renderDetailsView(id);
-        }
-
-        function renderDetailsView(id) {
-            const item = allProducts.find(p => p.id === id);
-            if (!item) {
-                closeDetailsView();
-                return;
-            }
-
-            selectedProductForBuy = item;
-
-            document.getElementById('spImg').src = item.image || 'https://via.placeholder.com/800x400';
-            document.getElementById('spTitle').innerText = item.title;
-            
-            document.getElementById('spCount').innerHTML = item.studentCount ? `<i class="fas fa-user-graduate"></i> ${item.studentCount} জন এনরোল্ড` : '';
-            document.getElementById('spDesc').innerText = item.desc || "বিস্তারিত বিবরণ শীঘ্রই আসছে...";
-
-            let priceHtml = `<span class="price" style="font-size:2rem;">${item.price}</span>`;
-            
-            if (item.discountPrice) {
-                const reg = parseFloat(item.price.replace(/[^\d.]/g, ''));
-                const disc = parseFloat(item.discountPrice.replace(/[^\d.]/g, ''));
-                let discountBadgeHtml = '';
-
-                if(reg && disc && reg > disc) {
-                    const percent = Math.round(((reg - disc) / reg) * 100);
-                    discountBadgeHtml = `<span class="discount-badge" style="font-size: 1rem; padding: 4px 8px; align-self: center;">SAVE ${percent}%</span>`;
-                }
-
-                priceHtml = `
-                    <div style="display:flex; flex-direction:column;">
-                        <span class="old-price" style="font-size:1.2rem;">${item.price}</span>
-                        <div style="display:flex; gap: 10px; align-items: center;">
-                            <span class="discount-price" style="font-size:2.2rem;">${item.discountPrice}</span>
-                            ${discountBadgeHtml}
-                        </div>
-                        <span style="color:#ff0000; font-weight:600; font-size:0.9rem;">অফার চলছে!</span>
-                    </div>
-                `;
-            }
-            document.getElementById('spPriceBox').innerHTML = priceHtml;
-
-            document.getElementById('homeSection').style.display = 'none';
-            document.getElementById('singleProductView').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-
-        function closeDetailsView() {
-            const newUrl = window.location.pathname;
-            window.history.pushState({path: newUrl}, '', newUrl);
-
-            document.getElementById('singleProductView').style.display = 'none';
-            document.getElementById('homeSection').style.display = 'block';
-            
-            renderGrid(document.querySelector('.filter-btn.active') ? 
-                (document.querySelector('.filter-btn.active').innerText.includes('কোর্স') ? 'course' : 'all') 
-                : 'all');
-                
-            // Problem 4: Restore Scroll Position
-            window.scrollTo(0, lastScrollPosition);
-        }
-
-        // ================= TIMER LOGIC =================
-        setInterval(() => {
-            const timers = document.querySelectorAll('.timer-text');
-            const now = new Date().getTime();
-            timers.forEach(timer => {
-                const deadline = new Date(timer.dataset.end).getTime();
-                const distance = deadline - now;
-                if (distance < 0) {
-                    timer.innerHTML = "অফার শেষ";
-                } else {
-                    const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    const s = Math.floor((distance % (1000 * 60)) / 1000);
-                    timer.innerHTML = `${h}h ${m}m ${s}s`;
-                }
-            });
-        }, 1000);
-
-        // ================= RENDER LOGIC =================
-        function renderGrid(filter) {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-            
-            // Re-check filter string logic if needed, simplify here
-            let type = 'all';
-            if(filter !== 'all') type = filter; // passed directly usually
-            else {
-                 // double check UI state
-                 const activeBtn = document.querySelector('.filter-btn.active');
-                 if(activeBtn && activeBtn.innerText.includes('কোর্স')) type = 'course';
-                 else if(activeBtn && activeBtn.innerText.includes('ই-বুক')) type = 'ebook';
-                 else if(activeBtn && activeBtn.innerText.includes('হার্ডকপি')) type = 'hardcopy';
-            }
-
-            const filtered = type === 'all' ? allProducts : allProducts.filter(p => p.type === type);
-
-            if(filtered.length === 0) {
-                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:50px;">কোনো তথ্য পাওয়া যায়নি।</div>';
-                return;
-            }
-
-            filtered.forEach(item => {
-                let priceHtml = `<span class="price">${item.price}</span>`;
-                let timerHtml = '';
-                let discountBadgeHtml = '';
-
-                if (item.discountPrice) {
-                    const reg = parseFloat(item.price.replace(/[^\d.]/g, ''));
-                    const disc = parseFloat(item.discountPrice.replace(/[^\d.]/g, ''));
-                    
-                    if(reg && disc && reg > disc) {
-                        const percent = Math.round(((reg - disc) / reg) * 100);
-                        discountBadgeHtml = `<span class="discount-badge">SAVE ${percent}%</span>`;
-                    }
-
-                    priceHtml = `
-                        <div class="price-box">
-                            <span class="old-price">${item.price}</span>
-                            <div style="display:flex; align-items:center;">
-                                <span class="discount-price">${item.discountPrice}</span>
-                                ${discountBadgeHtml}
-                            </div>
-                        </div>
-                    `;
-
-                    if (item.timerActive && item.discountDeadline) {
-                        const now = new Date().getTime();
-                        const deadline = new Date(item.discountDeadline).getTime();
-                        if (deadline > now) {
-                             timerHtml = `
-                                <div class="timer-badge">
-                                    <i class="fas fa-clock"></i> <span class="timer-text" data-end="${item.discountDeadline}">...</span>
-                                </div>
-                            `;
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
                         }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // Convert to JPEG at 60% quality
+                        currentImgBase64 = canvas.toDataURL('image/jpeg', 0.6);
+
+                        document.getElementById('previewImg').src = currentImgBase64;
+                        document.getElementById('previewImg').style.display = 'block';
                     }
+                    img.src = event.target.result;
                 }
-
-                const countBadge = item.studentCount 
-                    ? `<div class="student-count"><i class="fas fa-user-graduate"></i> ${item.studentCount} জন ভর্তি</div>` 
-                    : `<div class="student-count"><i class="fas fa-star"></i> নতুন</div>`;
-
-                const div = document.createElement('div');
-                div.className = 'card';
-                
-                div.onclick = function(e) {
-                    if(e.target.closest('.edit-icon')) return;
-                    openDetails(item.id);
-                };
-
-                div.innerHTML = `
-                    <div class="edit-icon" onclick="event.stopPropagation(); openEditModal('${item.id}')"><i class="fas fa-pen"></i></div>
-                    <div class="card-img-box">
-                        <span class="badge">${getTypeName(item.type)}</span>
-                        <img src="${item.image || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="${item.title}">
-                        ${timerHtml}
-                    </div>
-                    <div class="card-content">
-                        <div class="card-title">${item.title}</div>
-                        ${countBadge}
-                        <div class="card-footer">
-                            ${priceHtml}
-                            <button class="details-btn-card">বিস্তারিত দেখুন <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(div);
-            });
-        }
-
-        // ================= BUY ACTIONS =================
-        function confirmBuySingle() {
-            if(selectedProductForBuy) {
-                const regPrice = selectedProductForBuy.price;
-                const discPrice = selectedProductForBuy.discountPrice;
-                buyNow(selectedProductForBuy.title, regPrice, discPrice, selectedProductForBuy.type);
+                reader.readAsDataURL(file);
             }
         }
 
-        function buyNow(title, oldPrice, newPrice, type) {
-            const typeName = getTypeName(type);
-            let message = `আসসালামু আলাইকুম, আমি "${title}" এই ${typeName} টি কিনতে চাচ্ছি।\n`;
-            message += `রেগুলার প্রাইস: ${oldPrice}\n`;
-            if(newPrice) message += `ডিসকাউন্ট প্রাইস: ${newPrice}\n`;
-            message += `বিকাশ নাম্বারটি দিলে খুশি হতাম।`;
-            window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        // ================= CRUD & HELPERS =================
         function saveData() {
             const id = document.getElementById('editId').value;
             const title = document.getElementById('inpTitle').value;
             const price = document.getElementById('inpPrice').value;
             
             if(!title || !price) return alert("শিরোনাম এবং দাম দিন!");
+            if(!db) return alert("Database not connected!");
 
             const btn = document.getElementById('saveBtn');
             btn.innerText = "সেভ হচ্ছে..."; btn.disabled = true;
@@ -1102,26 +493,16 @@
                 timestamp: new Date().toISOString()
             };
 
-            if (!isDummyConfig && db) {
-                const action = id ? db.collection('products').doc(id).update(newData) : db.collection('products').add(newData);
-                action.then(() => finalizeSave("সেভ হয়েছে!")).catch(() => saveToLocal(id, newData));
-            } else {
-                saveToLocal(id, newData);
-            }
-        }
-
-        function saveToLocal(id, data) {
-            let products = JSON.parse(localStorage.getItem('eduprime_products') || "[]");
-            if (id) {
-                const index = products.findIndex(p => p.id === id);
-                if(index !== -1) products[index] = { ...products[index], ...data };
-            } else {
-                data.id = 'local_' + Date.now();
-                products.unshift(data);
-            }
-            localStorage.setItem('eduprime_products', JSON.stringify(products));
-            loadData(); 
-            finalizeSave("সেভ হয়েছে (Local)!");
+            const action = id ? db.collection('products').doc(id).update(newData) : db.collection('products').add(newData);
+            
+            action.then(() => {
+                finalizeSave("সফলভাবে সার্ভারে সেভ হয়েছে!");
+            }).catch((error) => {
+                console.error("Error:", error);
+                alert("সেভ হয়নি! ছবির সাইজ অনেক বড় হতে পারে।");
+                btn.innerText = "সেভ করুন";
+                btn.disabled = false;
+            });
         }
 
         function finalizeSave(msg) {
@@ -1134,28 +515,201 @@
         function deleteData() {
             const id = document.getElementById('editId').value;
             if(!confirm('সত্যিই ডিলিট করবেন?')) return;
-            
-            if (!isDummyConfig && db && !id.startsWith('local_')) {
-                db.collection('products').doc(id).delete().then(() => { closeModal('editModal'); loadData(); });
-            } else {
-                let products = JSON.parse(localStorage.getItem('eduprime_products') || "[]");
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('eduprime_products', JSON.stringify(products));
-                loadData();
-                closeModal('editModal');
+            if (db) {
+                db.collection('products').doc(id).delete().then(() => { closeModal('editModal'); });
             }
         }
 
-        function handleImage(input) {
-            if(input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    currentImgBase64 = e.target.result;
-                    document.getElementById('previewImg').src = currentImgBase64;
-                    document.getElementById('previewImg').style.display = 'block';
-                }
-                reader.readAsDataURL(input.files[0]);
+        // ================= ROUTING & UI =================
+        function processRouting() {
+            if(document.getElementById('analyticsSection').style.display === 'block') {
+                 document.getElementById('loading').style.display = 'none';
+                 return;
             }
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('analyticsSection').style.display = 'none';
+
+            if (productId) {
+                renderDetailsView(productId);
+            } else {
+                document.getElementById('singleProductView').style.display = 'none';
+                document.getElementById('homeSection').style.display = 'block';
+                const activeBtn = document.querySelector('.filter-btn.active');
+                let type = 'all';
+                if(activeBtn && activeBtn.innerText.includes('কোর্স')) type = 'course';
+                else if(activeBtn && activeBtn.innerText.includes('ই-বুক')) type = 'ebook';
+                else if(activeBtn && activeBtn.innerText.includes('হার্ডকপি')) type = 'hardcopy';
+                renderGrid(type);
+            }
+        }
+
+        function renderGrid(filter) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            let type = filter !== 'all' ? filter : 'all';
+            const filtered = type === 'all' ? allProducts : allProducts.filter(p => p.type === type);
+
+            if(filtered.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:50px;">কোনো তথ্য পাওয়া যায়নি।</div>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                let priceHtml = `<span class="price">${item.price}</span>`;
+                let timerHtml = '';
+                let discountBadgeHtml = '';
+                if (item.discountPrice) {
+                    const reg = parseFloat(item.price.replace(/[^\d.]/g, ''));
+                    const disc = parseFloat(item.discountPrice.replace(/[^\d.]/g, ''));
+                    if(reg && disc && reg > disc) {
+                        const percent = Math.round(((reg - disc) / reg) * 100);
+                        discountBadgeHtml = `<span class="discount-badge">SAVE ${percent}%</span>`;
+                    }
+                    priceHtml = `<div class="price-box"><span class="old-price">${item.price}</span><div style="display:flex; align-items:center;"><span class="discount-price">${item.discountPrice}</span>${discountBadgeHtml}</div></div>`;
+                    if (item.timerActive && item.discountDeadline) {
+                        const now = new Date().getTime();
+                        const deadline = new Date(item.discountDeadline).getTime();
+                        if (deadline > now) timerHtml = `<div class="timer-badge"><i class="fas fa-clock"></i> <span class="timer-text" data-end="${item.discountDeadline}">...</span></div>`;
+                    }
+                }
+                const countBadge = item.studentCount ? `<div class="student-count"><i class="fas fa-user-graduate"></i> ${item.studentCount} জন ভর্তি</div>` : `<div class="student-count"><i class="fas fa-star"></i> নতুন</div>`;
+
+                const div = document.createElement('div');
+                div.className = 'card';
+                div.onclick = function(e) { if(e.target.closest('.edit-icon')) return; openDetails(item.id); };
+                div.innerHTML = `
+                    <div class="edit-icon" onclick="event.stopPropagation(); openEditModal('${item.id}')"><i class="fas fa-pen"></i></div>
+                    <div class="card-img-box"><span class="badge">${getTypeName(item.type)}</span><img src="${item.image || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="${item.title}">${timerHtml}</div>
+                    <div class="card-content"><div class="card-title">${item.title}</div>${countBadge}<div class="card-footer">${priceHtml}<button class="details-btn-card">বিস্তারিত দেখুন <i class="fas fa-arrow-right"></i></button></div></div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function openDetails(id) {
+            lastScrollPosition = window.scrollY;
+            trackProductView(id);
+            const newUrl = `${window.location.pathname}?id=${id}`;
+            window.history.pushState({path: newUrl}, '', newUrl);
+            renderDetailsView(id);
+        }
+
+        function renderDetailsView(id) {
+            const item = allProducts.find(p => p.id === id);
+            if (!item) { closeDetailsView(); return; }
+            selectedProductForBuy = item;
+            document.getElementById('spImg').src = item.image || 'https://via.placeholder.com/800x400';
+            document.getElementById('spTitle').innerText = item.title;
+            document.getElementById('spCount').innerHTML = item.studentCount ? `<i class="fas fa-user-graduate"></i> ${item.studentCount} জন এনরোল্ড` : '';
+            document.getElementById('spDesc').innerText = item.desc || "বিস্তারিত বিবরণ শীঘ্রই আসছে...";
+
+            let priceHtml = `<span class="price" style="font-size:2rem;">${item.price}</span>`;
+            if (item.discountPrice) {
+                const reg = parseFloat(item.price.replace(/[^\d.]/g, ''));
+                const disc = parseFloat(item.discountPrice.replace(/[^\d.]/g, ''));
+                let discountBadgeHtml = '';
+                if(reg && disc && reg > disc) {
+                    const percent = Math.round(((reg - disc) / reg) * 100);
+                    discountBadgeHtml = `<span class="discount-badge" style="font-size: 1rem; padding: 4px 8px; align-self: center;">SAVE ${percent}%</span>`;
+                }
+                priceHtml = `<div style="display:flex; flex-direction:column;"><span class="old-price" style="font-size:1.2rem;">${item.price}</span><div style="display:flex; gap: 10px; align-items: center;"><span class="discount-price" style="font-size:2.2rem;">${item.discountPrice}</span>${discountBadgeHtml}</div><span style="color:#ff0000; font-weight:600; font-size:0.9rem;">অফার চলছে!</span></div>`;
+            }
+            document.getElementById('spPriceBox').innerHTML = priceHtml;
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('singleProductView').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function closeDetailsView() {
+            const newUrl = window.location.pathname;
+            window.history.pushState({path: newUrl}, '', newUrl);
+            document.getElementById('singleProductView').style.display = 'none';
+            document.getElementById('homeSection').style.display = 'block';
+            renderGrid(document.querySelector('.filter-btn.active') ? (document.querySelector('.filter-btn.active').innerText.includes('কোর্স') ? 'course' : 'all') : 'all');
+            window.scrollTo(0, lastScrollPosition);
+        }
+
+        function confirmBuySingle() {
+            if(selectedProductForBuy) {
+                buyNow(selectedProductForBuy.title, selectedProductForBuy.price, selectedProductForBuy.discountPrice, selectedProductForBuy.type);
+            }
+        }
+        function buyNow(title, oldPrice, newPrice, type) {
+            let message = `আসসালামু আলাইকুম, আমি "${title}" এই ${getTypeName(type)} টি কিনতে চাচ্ছি।\nরেগুলার প্রাইস: ${oldPrice}\n`;
+            if(newPrice) message += `ডিসকাউন্ট প্রাইস: ${newPrice}\n`;
+            message += `বিকাশ নাম্বারটি দিলে খুশি হতাম।`;
+            window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // ================= UTILS & ANALYTICS =================
+        function trackSiteVisit() {
+            if (!db || sessionStorage.getItem('visited_this_session')) return;
+            const today = new Date().toISOString().split('T')[0];
+            const statsRef = db.collection("analytics").doc("site_stats");
+            db.runTransaction(t => t.get(statsRef).then(doc => {
+                if (!doc.exists) t.set(statsRef, { date: today, visitors: 1 });
+                else {
+                    const d = doc.data();
+                    t.update(statsRef, d.date !== today ? { date: today, visitors: 1 } : { visitors: (d.visitors || 0) + 1 });
+                }
+            })).then(() => sessionStorage.setItem('visited_this_session', 'true')).catch(console.error);
+        }
+
+        function trackProductView(productId) {
+            if (!db) return;
+            const today = new Date().toISOString().split('T')[0];
+            const productRef = db.collection("products").doc(productId);
+            db.runTransaction(t => t.get(productRef).then(doc => {
+                if (!doc.exists) return;
+                const d = doc.data();
+                t.update(productRef, { dailyViews: d.viewDate === today ? (d.dailyViews || 0) + 1 : 1, viewDate: today });
+            })).catch(console.error);
+        }
+
+        let analyticsUnsubscribe = null;
+        function openAnalytics() {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('singleProductView').style.display = 'none';
+            document.getElementById('analyticsSection').style.display = 'block';
+            window.scrollTo(0, 0);
+            if (!db) return;
+
+            db.collection("analytics").doc("site_stats").onSnapshot(doc => {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('anaTotalVisitors').innerText = (doc.exists && doc.data().date === today) ? doc.data().visitors || 0 : 0;
+            });
+
+            analyticsUnsubscribe = db.collection("products").onSnapshot(snapshot => {
+                const today = new Date().toISOString().split('T')[0];
+                let products = [];
+                snapshot.forEach(doc => {
+                    const d = doc.data();
+                    const views = (d.viewDate === today) ? (d.dailyViews || 0) : 0;
+                    if(views > 0) products.push({ title: d.title, type: d.type, views: views });
+                });
+                products.sort((a, b) => b.views - a.views);
+                const tbody = document.getElementById('analyticsTableBody');
+                tbody.innerHTML = '';
+                if(products.length === 0) tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-sec);">আজকে এখনো কোনো ভিউ হয়নি।</td></tr>';
+                else products.forEach(p => tbody.innerHTML += `<tr class="analytics-row"><td>${p.title}</td><td>${getTypeName(p.type)}</td><td><span class="view-count-badge">${p.views}</span></td></tr>`);
+            });
+        }
+        function closeAnalytics() {
+            if(analyticsUnsubscribe) analyticsUnsubscribe();
+            document.getElementById('analyticsSection').style.display = 'none';
+            document.getElementById('homeSection').style.display = 'block';
+        }
+        function resetAnalyticsData() {
+            if(!confirm("নিশ্চিত?")) return;
+            if(!db) return;
+            const batch = db.batch();
+            db.collection("analytics").doc("site_stats").update({ visitors: 0 });
+            db.collection("products").get().then(snap => {
+                snap.docs.forEach(doc => batch.update(db.collection("products").doc(doc.id), { dailyViews: 0 }));
+                batch.commit().then(() => alert("রিসেট সম্পন্ন!"));
+            });
         }
 
         function checkAdmin() {
@@ -1171,7 +725,6 @@
             } else alert('ভুল তথ্য!');
         }
         function logout() { localStorage.removeItem('isAdmin'); location.reload(); }
-
         function openLoginModal() { document.getElementById('loginModal').classList.add('active'); }
         function openEditModal(id = null) {
             const modal = document.getElementById('editModal');
@@ -1179,7 +732,6 @@
             document.getElementById('editId').value = id || "";
             document.getElementById('deleteBtn').style.display = id ? 'block' : 'none';
             currentImgBase64 = "";
-            
             if(id) {
                 const item = allProducts.find(p => p.id === id);
                 document.getElementById('inpTitle').value = item.title;
@@ -1190,12 +742,7 @@
                 document.getElementById('inpDiscount').value = item.discountPrice || "";
                 document.getElementById('inpDeadline').value = item.discountDeadline || "";
                 document.getElementById('inpTimerActive').checked = item.timerActive === true;
-
-                if(item.image) {
-                    document.getElementById('previewImg').src = item.image;
-                    document.getElementById('previewImg').style.display = 'block';
-                    currentImgBase64 = item.image;
-                }
+                if(item.image) { document.getElementById('previewImg').src = item.image; document.getElementById('previewImg').style.display = 'block'; currentImgBase64 = item.image; }
             } else {
                 ['inpTitle','inpPrice','inpCount','inpDiscount','inpDeadline','inpDesc'].forEach(i => document.getElementById(i).value = "");
                 document.getElementById('inpTimerActive').checked = false; 
@@ -1203,13 +750,7 @@
             }
             modal.classList.add('active');
         }
-        function closeModal(id) { 
-            document.getElementById(id).classList.remove('active');
-            if(id === 'analyticsModal' && analyticsUnsubscribe) {
-                analyticsUnsubscribe(); 
-            }
-        }
-
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); if(id === 'analyticsModal' && analyticsUnsubscribe) analyticsUnsubscribe(); }
         function toggleTheme() {
             const html = document.documentElement;
             const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
@@ -1218,49 +759,49 @@
             localStorage.setItem('theme', newTheme);
         }
         if(localStorage.getItem('theme') === 'dark') toggleTheme();
-
-        function filterData(type) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            renderGrid(type);
-        }
+        function filterData(type) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); renderGrid(type); }
         function getTypeName(type) { return type === 'course' ? 'কোর্স' : type === 'ebook' ? 'ই-বুক' : 'হার্ডকপি'; }
 
-        // ================= LOGO MANAGEMENT SYSTEM =================
+        // Logo Logic
         function loadLogo() {
-            if (!isDummyConfig && db) {
+            if (db) {
                 db.collection("settings").doc("siteConfig").onSnapshot(doc => {
                     if (doc.exists && doc.data().logo) {
                         document.getElementById('siteLogo').src = doc.data().logo;
-                        localStorage.setItem('site_logo', doc.data().logo);
                     }
                 });
-            } else {
-                const savedLogo = localStorage.getItem('site_logo');
-                if (savedLogo) {
-                    document.getElementById('siteLogo').src = savedLogo;
-                }
             }
         }
-
         function handleLogoUpload(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const base64Logo = e.target.result;
                     document.getElementById('siteLogo').src = base64Logo;
-                    if (!isDummyConfig && db) {
+                    if (db) {
                         db.collection("settings").doc("siteConfig").set({ logo: base64Logo }, { merge: true })
                         .then(() => alert("লোগো সফলভাবে আপডেট হয়েছে!")).catch(e => alert("ব্যর্থ হয়েছে।"));
-                    } else {
-                        localStorage.setItem('site_logo', base64Logo);
-                        alert("লোগো লোকাল স্টোরেজে সেভ হয়েছে।");
                     }
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
+        
+        setInterval(() => {
+            const timers = document.querySelectorAll('.timer-text');
+            const now = new Date().getTime();
+            timers.forEach(timer => {
+                const deadline = new Date(timer.dataset.end).getTime();
+                const distance = deadline - now;
+                if (distance < 0) timer.innerHTML = "অফার শেষ";
+                else {
+                    const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const s = Math.floor((distance % (1000 * 60)) / 1000);
+                    timer.innerHTML = `${h}h ${m}m ${s}s`;
+                }
+            });
+        }, 1000);
     </script>
 </body>
 </html>
-
